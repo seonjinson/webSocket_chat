@@ -7,8 +7,7 @@ $ npm install
 ```
 
 ### Environment Configuration
-* Database: MySQL(version 5.7)
-  - Database creation
+* Database: mongoDB
 
 * .env file configuration(dir=./)
 
