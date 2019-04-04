@@ -1,12 +1,18 @@
 const SocketIO = require('socket.io');
 const axios = require('axios');
 
-module.exports = (server) => {
+module.exports = (server, app, sessionMiddleware) => {
   const io = SocketIO(server, { path: '/socket.io' });
+  app.set('io', io); // express 변수 저장 방법 --> req.app.get('io)
   // 네임 스페이스(실시간 데이터가 전달될 주소를 구별할 수 있음).
   // io.of('/') -> 기본네임스페이스,
   const room = io.of('/room');
   const chat = io.of('/chat');
+
+  // socket.io에서 express middleware사용방법
+  io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res, next);
+  });
 
   room.on('connection', (socket) => {
     console.log('room 네임스페이스에 접속');
@@ -36,7 +42,7 @@ module.exports = (server) => {
       socket.leave(roomId); // room 나가기
       const currentRoom = socket.adapter.rooms[roomId];
       const userCount = currentRoom ? currentRoom.length : 0;
-      if (userCount === 0) {
+      if (userCount === 0) { // room에 인원이 하나도 없으면 db에서 room 삭제
         axios.delete(`http://localhost:8085/room/${roomId}`)
           .then(() => {
             console.log('방 제거 요청 성공');
