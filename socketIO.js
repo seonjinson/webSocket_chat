@@ -27,7 +27,7 @@ module.exports = (server, app, sessionMiddleware) => {
     const { headers: { referer } } = req;
     // room/awefdsijfds (req.headers.referer) roomId 가져오기
     const roomId = referer
-      .split('/')[referer.split('/').legnth - 1]
+      .split('/')[referer.split('/').length - 1]
       .replace(/\?.+/, '');
     // socket.join(룸ID)
     // socket.to(룸ID).emit()
