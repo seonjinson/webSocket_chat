@@ -4,6 +4,7 @@ chat server using ws protocol
 ### Dependancy Install
 ```
 $ npm install
+$ npm install -g nodemon
 ```
 
 ### Environment Configuration
