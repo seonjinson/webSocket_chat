@@ -36,6 +36,7 @@ module.exports = (server, app, sessionMiddleware) => {
     socket.to(roomId).emit('join', { // 해당 room에만 event emit
       user: 'system',
       chat: `${req.session.color} 님이 입장하셨습니다.`,
+      number: socket.adapter.rooms[roomId].length,
     });
     socket.on('disconnect', () => {
       console.log('chat 네임스페이스 접속 해제');
@@ -43,7 +44,7 @@ module.exports = (server, app, sessionMiddleware) => {
       const currentRoom = socket.adapter.rooms[roomId];
       const userCount = currentRoom ? currentRoom.length : 0;
       if (userCount === 0) { // room에 인원이 하나도 없으면 db에서 room 삭제
-        axios.delete(`http://localhost:8085/room/${roomId}`)
+        axios.delete(`http://localhost:8084/room/${roomId}`)
           .then(() => {
             console.log('방 제거 요청 성공');
           })
@@ -54,6 +55,7 @@ module.exports = (server, app, sessionMiddleware) => {
         socket.to(roomId).emit('exit', {
           user: 'system',
           chat: `${req.session.color}님이 퇴장하셨습니다.`,
+          number: socket.adapter.rooms[roomId].length,
         });
       }
     });

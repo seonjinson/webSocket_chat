@@ -63,11 +63,13 @@ router.get('/room/:id', async (req, res, next) => {
       req.flash('roomError', '허용인원초과');
       return res.redirect('/');
     }
+    console.log(rooms);
     const chats = await Chat.find({ room: room._id }).sort('creatdAt');
     return res.render('chat', {
       room,
       title: room.title,
       chats,
+      number: (rooms && rooms[req.params.id] && rooms[req.params.id].length) || 0,
       user: req.session.color,
     });
   } catch (error) {
@@ -78,7 +80,7 @@ router.get('/room/:id', async (req, res, next) => {
 
 router.delete('/room/:id', async (req, res, next) => {
   try {
-    await Room.remove({ id: req.params.id });
+    await Room.remove({ _id: req.params.id });
     await Chat.remove({ room: req.params.id });
     res.send('ok');
     setTimeout(() => {
