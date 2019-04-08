@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = (server, app, sessionMiddleware) => {
   const io = SocketIO(server, { path: '/socket.io' });
-  app.set('io', io); // express 변수 저장 방법 --> req.app.get('io)
+  app.set('io', io); // express 변수 저장 방법 --> req.app.get('io')
   // 네임 스페이스(실시간 데이터가 전달될 주소를 구별할 수 있음).
   // io.of('/') -> 기본네임스페이스,
   const room = io.of('/room');
