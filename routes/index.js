@@ -63,13 +63,13 @@ router.get('/room/:id', async (req, res, next) => {
       req.flash('roomError', '허용인원초과');
       return res.redirect('/');
     }
-    console.log(rooms);
+    console.log(rooms, 'rooms');
     const chats = await Chat.find({ room: room._id }).sort('creatdAt');
     return res.render('chat', {
       room,
       title: room.title,
       chats,
-      number: (rooms && rooms[req.params.id] && rooms[req.params.id].length) || 0,
+      number: (rooms && rooms[req.params.id] && rooms[req.params.id].length + 1) || 1,
       user: req.session.color,
     });
   } catch (error) {
