@@ -1,5 +1,5 @@
 # Real-time chat server using web socket
-chat server using ws protocol
+chat server using web socket.io protocol
 
 ### Dependancy Install
 ```
@@ -14,6 +14,7 @@ $ mongod --auth
 ```
 > Use mongoDB authentication mode
 * .env file configuration(dir=./)
+  - PORT=8084
   - MONGO_ID=root
   - MONGO_PASSWORD=nodejs
 
